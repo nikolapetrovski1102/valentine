@@ -30,10 +30,6 @@
             position: relative;
         }
 
-        .card:hover {
-            transform: rotateY(180deg);
-        }
-
         .front, .back {
             position: absolute;
             width: 100%;
@@ -157,7 +153,7 @@
         <img id="angryBear" class="animation" src="https://media.tenor.com/hXINkxhLfDUAAAAM/mad-bear.gif" alt="Angry Bear">
         <img id="celebrateBear" class="animation" src="https://i.pinimg.com/originals/96/91/0a/96910a7cedeff19c958ac2a78286bd6f.gif" alt="Celebrate Bear">
         
-        <div class="card">
+        <div onclick="flipCard()" class="card">
             <div class="front">
                 <div class="heart">❤️</div>
                 <h1>Happy Valentine's Day!</h1>
@@ -177,6 +173,10 @@
 
     <script>
         let noClickCount = 0;
+
+        function flipCard() {
+            document.querySelector('.card').style.transform = 'rotateY(180deg)';
+        }
 
         function moveButton() {
             const noBtn = document.querySelector('.no-btn');
