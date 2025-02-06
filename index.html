@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Special ❤️</title>
+    <style>
+        body {
+            padding: 10px;
+            margin: 0;
+            height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #ffb3c6;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            perspective: 1000px;
+            position: relative;
+        }
+
+        .card {
+            width: 290px;
+            height: 400px;
+            transform-style: preserve-3d;
+            transition: all 1s ease;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: rotateY(180deg);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .front {
+            background: #ff4d6d;
+            color: white;
+        }
+
+        .back {
+            background: #fff0f3;
+            transform: rotateY(180deg);
+            color: #590d22;
+        }
+
+        .heart {
+            font-size: 60px;
+            animation: pulse 1s infinite;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        button {
+            padding: 10px 30px;
+            font-size: 18px;
+            margin: 15px 5px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .yes-btn {
+            background: #ff4d6d;
+            color: white;
+        }
+
+        .no-btn {
+            background: #590d22;
+            color: white;
+            position: relative;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .animation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            height: auto;
+            display: none;
+            z-index: 10;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 20px;
+            color: #590d22;
+            font-size: 12px;
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .confetti .piece {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #ff4d6d;
+            animation: fall 3s infinite ease-in-out;
+            opacity: 0;
+            animation-delay: calc(0.2s * var(--i));
+        }
+
+        @keyframes fall {
+            0% { top: -10px; transform: rotate(0deg); opacity: 1; }
+            100% { top: 100%; transform: rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img id="angryBear" class="animation" src="https://media.tenor.com/hXINkxhLfDUAAAAM/mad-bear.gif" alt="Angry Bear">
+        <img id="celebrateBear" class="animation" src="https://i.pinimg.com/originals/96/91/0a/96910a7cedeff19c958ac2a78286bd6f.gif" alt="Celebrate Bear">
+        
+        <div class="card">
+            <div class="front">
+                <div class="heart">❤️</div>
+                <h1>Happy Valentine's Day!</h1>
+                <p>Touch the card to open</p>
+            </div>
+            <div class="back">
+                <h1>My Dearest Love,</h1>
+                <p>Would you do me the honor of being my Valentine this year and every year after?</p>
+                <button class="yes-btn" onclick="handleYes()">YES! ❤️</button>
+                <button class="no-btn" onclick="moveButton()" onmouseover="moveButton()">No</button>
+            </div>
+        </div>
+    </div>
+    <footer id="footer" class="hidden">Forever and always, my heart is yours. 💞</footer>
+
+    <div id="confetti" class="confetti hidden"></div>
+
+    <script>
+        let noClickCount = 0;
+
+        function moveButton() {
+            const noBtn = document.querySelector('.no-btn');
+            noClickCount++;
+
+            if (noClickCount > 5) {
+                document.getElementById('angryBear').style.display = 'block';
+            }
+
+            setTimeout( () => {
+                document.getElementById('angryBear').style.display = 'none';
+            }, 2400)
+
+            noBtn.style.transform = `translate(${Math.random() * 100 - 100}px, ${Math.random() * 100 - 100}px)`;
+        }
+
+        function handleYes() {
+            document.getElementById('footer').classList.remove('hidden');
+            document.querySelector('.card').style.transform = 'rotateY(0)';
+            document.querySelector('.no-btn').style.display = 'none';
+            document.querySelector('.yes-btn').style.transform = 'scale(1.5)';
+
+            document.getElementById('celebrateBear').style.display = 'block';
+            triggerConfetti();
+
+            setTimeout(() => {
+                document.querySelector('.yes-btn').style.transform = 'scale(1)';
+            }, 500);
+
+            setTimeout( () => {
+                document.getElementById('celebrateBear').style.display = 'none';
+            }, 5000)
+        }
+
+        function triggerConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            confettiContainer.classList.remove('hidden');
+            
+            for (let i = 0; i < 100; i++) {
+                let piece = document.createElement('div');
+                piece.classList.add('piece');
+                piece.style.left = `${Math.random() * 100}%`;
+                piece.style.animationDuration = `${Math.random() * 2 + 3}s`;
+                piece.style.animationDelay = `${Math.random() * 2}s`;
+                piece.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`; // Random colors
+                piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+
+                piece.style.setProperty('--i', i);
+                confettiContainer.appendChild(piece);
+            }
+
+            // Remove confetti after 5 seconds
+            setTimeout(() => {
+                confettiContainer.classList.add('hidden');
+                confettiContainer.innerHTML = ''; // Remove confetti pieces
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
